@@ -303,6 +303,3 @@ def main(doc1_path, doc2_path):
         with open(f"{doc_name}-kdes.yaml", "w") as f:
             yaml.dump(final_yaml_data, f, sort_keys=False)
         print(f"Completed {doc_name}. Saved YAML.")
-
-if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])

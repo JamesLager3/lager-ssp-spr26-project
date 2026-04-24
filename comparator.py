@@ -157,6 +157,3 @@ def main(yaml1, yaml2) -> None:
     compare_element_requirements(
         yaml1, yaml2, output_path="requirement_differences.txt"
     )
-
-if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
