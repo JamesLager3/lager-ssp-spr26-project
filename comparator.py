@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import os
 
 import yaml
 
@@ -68,7 +69,7 @@ def compare_element_names(
         lines.append(
             f"{name}"
         )
-
+    
     with open(output_path, "w", encoding="utf-8") as out:
         if lines:
             out.write("\n".join(lines) + "\n")
@@ -132,7 +133,7 @@ def compare_element_requirements(
                 f"PRESENT-IN-{file2.name},"
                 f"{req}"
             )
-
+    
     with open(output_path, "w", encoding="utf-8") as out:
         if rows:
             out.write("\n".join(rows) + "\n")
@@ -148,6 +149,10 @@ def compare_element_requirements(
 
 
 def main(yaml1, yaml2) -> None:
+    if os.path.exists('requirement_differences.txt'):
+        os.remove('requirement_differences.txt')
+    if os.path.exists('name_differences.txt'):
+        os.remove('name_differences.txt')
     compare_element_names(yaml1, yaml2, output_path="name_differences.txt")
     compare_element_requirements(
         yaml1, yaml2, output_path="requirement_differences.txt"

@@ -480,6 +480,8 @@ def generate_csv(df: pd.DataFrame,
 
 
 def main(name_diff_file: str, req_diff_file: str):
+    if os.path.exists('controls.txt'):
+        os.remove('controls.txt')
     control_file = generate_control_file(name_diff_file, req_diff_file)
     df           = run_kubescape(control_file)
     csv_path     = generate_csv(df)

@@ -56,6 +56,7 @@ def zero_shot_prompt(text: str, tokenizer) -> str:
         add_generation_prompt=True
     ), prompt
 
+
 def few_shot_prompt(text: str, tokenizer) -> str:
     example_shot = """
         Extract KDEs from text. Output ONLY JSON. 
@@ -167,12 +168,11 @@ def generate_output(prompt_batch_or_list, tokenizer, model, max_new_tokens=2048)
             input_ids=input_ids,
             attention_mask=attention_mask,
             max_new_tokens=max_new_tokens,
-            do_sample=False,          # Greedy decoding is more stable for JSON
-            repetition_penalty=1.2,   # Stops the "reprinting the same line" loop
+            do_sample=False,
+            repetition_penalty=1.2,
             temperature=0.0,
         )
 
-    # The model appended new tokens after position max_len for every sequence
     return [
         tokenizer.decode(out[max_len:], skip_special_tokens=True)
         for out in outputs
@@ -189,6 +189,8 @@ def log_results(llm_name: str, prompt: str, prompt_type: str, output: str, file=
 
 
 def main(doc1_path, doc2_path):
+    if os.path.exists('llm_outputs.txt'):
+        os.remove('llm_outputs.txt')
     doc_paths = [doc1_path, doc2_path]
 
     model_name = "google/gemma-3-1b-it"
